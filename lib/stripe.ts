@@ -10,5 +10,6 @@ export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
 });
 
 // Stripe product and price IDs
-export const PREMIUM_MEMBERSHIP_PRICE_ID = 'price_1SPob0BUfqU9uGY3jHncPE0I';
+// LIVE MODE - Premium Membership: $2.00
+export const PREMIUM_MEMBERSHIP_PRICE_ID = process.env.NEXT_PUBLIC_STRIPE_PRICE_ID;
 export const PREMIUM_MEMBERSHIP_AMOUNT = 200; // $2.00 in cents
