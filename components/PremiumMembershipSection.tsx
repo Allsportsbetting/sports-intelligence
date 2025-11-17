@@ -140,7 +140,7 @@ export default function PremiumMembershipSection() {
                 <span className="text-2xl flex-shrink-0">💬</span>
                 <div>
                   <h4 className="text-white font-semibold text-base mb-1">VIP Community</h4>
-                  <p className="text-slate-400 text-sm">Private Telegram channel with elite bettors</p>
+                  <p className="text-slate-400 text-sm">Private Telegram channel with elite specialists</p>
                 </div>
               </div>
 
