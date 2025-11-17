@@ -109,7 +109,7 @@ export default function PremiumMembershipSection() {
 
             {/* Video Description */}
             <p className="text-slate-400 text-sm text-center leading-relaxed">
-              Join the movement. Create your account today, and access the exclusive video revealing how All Sports Intelligence transform your betting strategy into a world-class advantage.
+              Join the movement. Create your account today, and access the exclusive video revealing how All Sports Intelligence transform your playgroup strategy into a world-class advantage.
             </p>
           </div>
 
