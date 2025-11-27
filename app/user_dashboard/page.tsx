@@ -1,12 +1,24 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import Footer from '@/components/Footer';
+import { useVideoContentStore } from '@/store/videoContentStore';
 
 export default function UserDashboard() {
   const [bankrollPercentage, setBankrollPercentage] = useState(70);
+  const { videoContent, fetchVideoContent, subscribeToRealtime, unsubscribeFromRealtime } = useVideoContentStore();
+  
+  const dashboardVideo = videoContent.get('dashboard_video');
+  const watchOnYoutube = videoContent.get('watch_on_youtube');
+  const bettingEssentials = videoContent.get('betting_essentials');
+
+  useEffect(() => {
+    fetchVideoContent();
+    subscribeToRealtime();
+    return () => unsubscribeFromRealtime();
+  }, [fetchVideoContent, subscribeToRealtime, unsubscribeFromRealtime]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-navy-950 via-navy-900 to-purple-950">
@@ -79,20 +91,36 @@ export default function UserDashboard() {
           transition={{ duration: 0.5, delay: 0.2 }}
           className="mb-8 bg-slate-900/80 backdrop-blur-xl border border-cyan-500/30 rounded-3xl p-8 shadow-2xl shadow-cyan-500/20"
         >
-          <h3 className="text-2xl font-bold text-white text-center mb-6">
-            Today's Expert Pick
-          </h3>
+          {dashboardVideo?.show_title && dashboardVideo?.title && (
+            <h3 className="text-2xl font-bold text-white text-center mb-2">
+              {dashboardVideo.title}
+            </h3>
+          )}
+          
+          {dashboardVideo?.show_subtitle && dashboardVideo?.subtitle && (
+            <p className="text-slate-300 text-center mb-4">
+              {dashboardVideo.subtitle}
+            </p>
+          )}
           
           {/* YouTube Video Embed */}
-          <div className="relative aspect-video bg-black rounded-2xl overflow-hidden">
-            <iframe
-              src="https://www.youtube.com/embed/oj2qpJXp5BE"
-              title="Today's Expert Pick"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-              className="absolute inset-0 w-full h-full rounded-2xl"
-            />
-          </div>
+          {dashboardVideo?.show_video && dashboardVideo?.video_url && (
+            <div className="relative aspect-video bg-black rounded-2xl overflow-hidden">
+              <iframe
+                src={dashboardVideo.video_url}
+                title={dashboardVideo.title || 'Video'}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="absolute inset-0 w-full h-full rounded-2xl"
+              />
+            </div>
+          )}
+
+          {dashboardVideo?.show_description && dashboardVideo?.description && (
+            <p className="text-slate-400 text-sm text-center mt-4 leading-relaxed">
+              {dashboardVideo.description}
+            </p>
+          )}
         </motion.div>
 
         {/* Quick Links Grid */}
@@ -159,52 +187,64 @@ export default function UserDashboard() {
           </a>
 
           {/* Watch on YouTube */}
-          <a
-            href="https://youtu.be/D189Rsb04xE?si=zg2RfXBm_WbVCWAF"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="bg-slate-900/80 backdrop-blur-xl border border-purple-500/30 rounded-2xl p-6 hover:border-purple-400/50 transition-all duration-300 shadow-lg shadow-purple-500/10 hover:shadow-purple-500/20 group"
-          >
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-gradient-to-br from-purple-500/20 to-cyan-500/20 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                <svg className="w-6 h-6 text-red-500" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-                </svg>
+          {watchOnYoutube?.show_video && watchOnYoutube?.video_url && (
+            <a
+              href={watchOnYoutube.video_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-slate-900/80 backdrop-blur-xl border border-purple-500/30 rounded-2xl p-6 hover:border-purple-400/50 transition-all duration-300 shadow-lg shadow-purple-500/10 hover:shadow-purple-500/20 group"
+            >
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 bg-gradient-to-br from-purple-500/20 to-cyan-500/20 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                  <svg className="w-6 h-6 text-red-500" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                  </svg>
+                </div>
+                <div>
+                  {watchOnYoutube.show_title && watchOnYoutube.title && (
+                    <h4 className="text-white font-semibold text-lg mb-1">{watchOnYoutube.title}</h4>
+                  )}
+                  {watchOnYoutube.show_subtitle && watchOnYoutube.subtitle && (
+                    <p className="text-slate-400 text-sm">{watchOnYoutube.subtitle}</p>
+                  )}
+                </div>
               </div>
-              <div>
-                <h4 className="text-white font-semibold text-lg mb-1">Watch on YouTube</h4>
-                <p className="text-slate-400 text-sm">Video tutorials and tips</p>
-              </div>
-            </div>
-          </a>
+            </a>
+          )}
         </motion.div>
 
         {/* Additional Sections */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-        >
-          {/* Betting Essentials */}
-          <a
-            href="https://youtu.be/cE-4DLLImZQ"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="block bg-slate-900/80 backdrop-blur-xl border border-purple-500/30 rounded-2xl p-6 hover:border-purple-400/50 transition-all duration-300 shadow-lg shadow-purple-500/10 hover:shadow-purple-500/20 group"
+        {bettingEssentials?.show_video && bettingEssentials?.video_url && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
           >
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-gradient-to-br from-purple-500/20 to-cyan-500/20 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                <svg className="w-6 h-6 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
+            {/* Betting Essentials */}
+            <a
+              href={bettingEssentials.video_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block bg-slate-900/80 backdrop-blur-xl border border-purple-500/30 rounded-2xl p-6 hover:border-purple-400/50 transition-all duration-300 shadow-lg shadow-purple-500/10 hover:shadow-purple-500/20 group"
+            >
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 bg-gradient-to-br from-purple-500/20 to-cyan-500/20 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                  <svg className="w-6 h-6 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <div>
+                  {bettingEssentials.show_title && bettingEssentials.title && (
+                    <h4 className="text-white font-semibold text-lg mb-1">{bettingEssentials.title}</h4>
+                  )}
+                  {bettingEssentials.show_subtitle && bettingEssentials.subtitle && (
+                    <p className="text-slate-400 text-sm">{bettingEssentials.subtitle}</p>
+                  )}
+                </div>
               </div>
-              <div>
-                <h4 className="text-white font-semibold text-lg mb-1">Betting Essentials</h4>
-                <p className="text-slate-400 text-sm">Master the fundamentals</p>
-              </div>
-            </div>
-          </a>
-        </motion.div>
+            </a>
+          </motion.div>
+        )}
       </main>
 
       {/* Footer */}

@@ -1,12 +1,21 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { useVideoContentStore } from '@/store/videoContentStore';
 
 export default function PremiumMembershipSection() {
   const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const { videoContent, fetchVideoContent, subscribeToRealtime, unsubscribeFromRealtime } = useVideoContentStore();
+  const homepageVideo = videoContent.get('homepage_video');
+
+  useEffect(() => {
+    fetchVideoContent();
+    subscribeToRealtime();
+    return () => unsubscribeFromRealtime();
+  }, [fetchVideoContent, subscribeToRealtime, unsubscribeFromRealtime]);
 
   const validateEmail = (email: string): boolean => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -83,34 +92,46 @@ export default function PremiumMembershipSection() {
               <span className="text-5xl">🚀</span>
             </motion.div>
             <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-cyan-300 via-purple-300 to-cyan-400 bg-clip-text text-transparent mb-3">
-              All Sports Intelligence Membership
+              All Sports Intelligence
             </h2>
             <p className="text-slate-300 text-base md:text-lg">
-              Unlock Exclusive Benefits & Rewards
+              who we're & what we offer
             </p>
           </div>
 
           {/* Video Section */}
           <div className="mb-8 bg-slate-950/50 border border-cyan-500/20 rounded-2xl p-6">
-            <h3 className="text-xl font-bold text-white text-center mb-4">
-              Unlock the Video
-            </h3>
+            {homepageVideo?.show_title && homepageVideo?.title && (
+              <h3 className="text-xl font-bold text-white text-center mb-2">
+                {homepageVideo.title}
+              </h3>
+            )}
+            
+            {homepageVideo?.show_subtitle && homepageVideo?.subtitle && (
+              <p className="text-slate-300 text-center mb-4">
+                {homepageVideo.subtitle}
+              </p>
+            )}
             
             {/* YouTube Video Embed */}
-            <div className="relative aspect-video bg-black rounded-xl mb-4 overflow-hidden">
-              <iframe
-                src="https://www.youtube.com/embed/oj2qpJXp5BE"
-                title="All Sports Intelligence Introduction"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                className="absolute inset-0 w-full h-full rounded-xl"
-              />
-            </div>
+            {homepageVideo?.show_video && homepageVideo?.video_url && (
+              <div className="relative aspect-video bg-black rounded-xl mb-4 overflow-hidden">
+                <iframe
+                  src={homepageVideo.video_url}
+                  title={homepageVideo.title || 'Video'}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  className="absolute inset-0 w-full h-full rounded-xl"
+                />
+              </div>
+            )}
 
             {/* Video Description */}
-            <p className="text-slate-400 text-sm text-center leading-relaxed">
-              Join the movement. Create your account today, and access the exclusive video revealing how All Sports Intelligence transform your playgroup strategy into a world-class advantage.
-            </p>
+            {homepageVideo?.show_description && homepageVideo?.description && (
+              <p className="text-slate-400 text-sm text-center leading-relaxed">
+                {homepageVideo.description}
+              </p>
+            )}
           </div>
 
           {/* Why Join Section */}

@@ -6,8 +6,10 @@ import { supabase } from '@/lib/supabase';
 import { useGlobalStore } from '@/store/globalStore';
 import CountryUpdateForm from '@/components/CountryUpdateForm';
 import GlobalEnergyForm from '@/components/GlobalEnergyForm';
+import VideoContentForm from '@/components/VideoContentForm';
 import Toast from '@/components/Toast';
-import { CountryUpdate, EnergyUpdate } from '@/types';
+import { CountryUpdate, EnergyUpdate, VideoContentUpdate } from '@/types';
+import { useVideoContentStore } from '@/store/videoContentStore';
 import Link from 'next/link';
 
 // Fetch with timeout utility
@@ -35,10 +37,12 @@ export default function ModifyPageContent() {
   const router = useRouter();
   const [userEmail, setUserEmail] = useState<string>('');
   const { lockerState, fetchInitialData, showToast } = useGlobalStore();
+  const { fetchVideoContent, setVideoContent } = useVideoContentStore();
 
   useEffect(() => {
     // Fetch initial data
     fetchInitialData();
+    fetchVideoContent();
 
     // Get current user
     const getUser = async () => {
@@ -48,7 +52,7 @@ export default function ModifyPageContent() {
       }
     };
     getUser();
-  }, [fetchInitialData]);
+  }, [fetchInitialData, fetchVideoContent]);
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
@@ -137,6 +141,44 @@ export default function ModifyPageContent() {
     }
   };
 
+  const handleVideoContentUpdate = async (update: VideoContentUpdate) => {
+    try {
+      const response = await fetchWithTimeout('/api/admin/update-video-content', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(update),
+      }, 15000);
+
+      const result = await response.json();
+
+      if (!response.ok || !result.success) {
+        showToast({
+          type: 'error',
+          message: result.error || 'Failed to update video content',
+        });
+        throw new Error(result.error);
+      }
+
+      showToast({
+        type: 'success',
+        message: `Video content updated for ${update.placement.replace('_', ' ')}`,
+      });
+
+      // Update Zustand store
+      setVideoContent(update.placement, result.data);
+    } catch (error) {
+      console.error('Error updating video content:', error);
+      if (error instanceof Error && error.message.includes('timed out')) {
+        showToast({
+          type: 'error',
+          message: error.message,
+        });
+      }
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-navy-950 via-navy-900 to-purple-950">
       {/* Admin Header - Matching homepage style */}
@@ -197,6 +239,14 @@ export default function ModifyPageContent() {
             </h2>
             <GlobalEnergyForm onSubmit={handleEnergyUpdate} />
           </div>
+        </div>
+
+        {/* Video Content Form - Full Width */}
+        <div className="mt-8 bg-slate-900/80 backdrop-blur-xl border border-purple-500/30 rounded-3xl p-8 shadow-2xl shadow-purple-500/20">
+          <h2 className="text-2xl font-bold bg-gradient-to-r from-purple-300 via-cyan-300 to-purple-400 bg-clip-text text-transparent mb-6">
+            Update Video Content
+          </h2>
+          <VideoContentForm onSubmit={handleVideoContentUpdate} />
         </div>
       </main>
 

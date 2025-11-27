@@ -149,6 +149,48 @@ export type Database = {
         }
         Relationships: []
       }
+      video_content: {
+        Row: {
+          id: string
+          placement: string
+          video_url: string
+          title: string
+          subtitle: string
+          description: string
+          show_video: boolean
+          show_title: boolean
+          show_subtitle: boolean
+          show_description: boolean
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          placement: string
+          video_url?: string
+          title?: string
+          subtitle?: string
+          description?: string
+          show_video?: boolean
+          show_title?: boolean
+          show_subtitle?: boolean
+          show_description?: boolean
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          placement?: string
+          video_url?: string
+          title?: string
+          subtitle?: string
+          description?: string
+          show_video?: boolean
+          show_title?: boolean
+          show_subtitle?: boolean
+          show_description?: boolean
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
