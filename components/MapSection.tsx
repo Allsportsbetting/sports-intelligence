@@ -48,12 +48,13 @@ export default function MapSection() {
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="absolute inset-0 flex items-center justify-center pointer-events-none"
+              className="absolute inset-0 flex items-center justify-center pointer-events-none p-4"
             >
-              <div className="relative w-full max-w-2xl aspect-video">
+              {/* Full-size card matching banner section size */}
+              <div className="relative w-full max-w-4xl h-full max-h-[80vh]">
                 {/* Semi-transparent overlay with play button */}
                 <div 
-                  className="absolute inset-0 bg-slate-900/30 backdrop-blur-[2px] rounded-2xl border border-cyan-500/20 flex items-center justify-center cursor-pointer pointer-events-auto hover:bg-slate-900/40 transition-all"
+                  className="absolute inset-0 bg-slate-900/30 backdrop-blur-[2px] rounded-3xl border border-cyan-500/20 flex items-center justify-center cursor-pointer pointer-events-auto hover:bg-slate-900/40 transition-all shadow-2xl shadow-cyan-500/10"
                   onClick={handlePlayVideo}
                 >
                   <div className="flex flex-col items-center gap-4">
