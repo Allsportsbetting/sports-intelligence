@@ -1,14 +1,11 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useVideoContentStore } from '@/store/videoContentStore';
+import SubscribeForm from '@/components/SubscribeForm';
 
 export default function SubscribeSection() {
-  const [email, setEmail] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
-  
   const { videoContent, fetchVideoContent, subscribeToRealtime, unsubscribeFromRealtime } = useVideoContentStore();
   const subscribeVideo = videoContent.get('subscribe_video');
 
@@ -17,31 +14,6 @@ export default function SubscribeSection() {
     subscribeToRealtime();
     return () => unsubscribeFromRealtime();
   }, [fetchVideoContent, subscribeToRealtime, unsubscribeFromRealtime]);
-
-  const handleSubscribe = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setMessage(null);
-
-    if (!email.trim()) {
-      setMessage({ type: 'error', text: 'Please enter your email address' });
-      return;
-    }
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      setMessage({ type: 'error', text: 'Please enter a valid email address' });
-      return;
-    }
-
-    setIsSubmitting(true);
-    
-    // Simulate subscription (replace with actual API call)
-    setTimeout(() => {
-      setMessage({ type: 'success', text: 'Thanks for subscribing! Check your email for confirmation.' });
-      setEmail('');
-      setIsSubmitting(false);
-    }, 1000);
-  };
 
   // Don't render if video is hidden
   if (!subscribeVideo?.show_video) return null;
@@ -114,58 +86,16 @@ export default function SubscribeSection() {
             </motion.p>
           )}
 
-          {/* Subscribe Form */}
-          <motion.form
+          {/* Subscribe Form with Country Selector */}
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.3 }}
-            onSubmit={handleSubscribe}
-            className="max-w-md mx-auto"
+            className="max-w-2xl mx-auto"
           >
-            <div className="flex flex-col sm:flex-row gap-3">
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter your email"
-                disabled={isSubmitting}
-                className="flex-1 px-5 py-4 bg-slate-800/50 border border-purple-500/30 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all disabled:opacity-50"
-              />
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="px-8 py-4 bg-gradient-to-r from-purple-500 to-cyan-500 hover:from-purple-600 hover:to-cyan-600 text-white font-bold rounded-xl shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
-              >
-                {isSubmitting ? (
-                  <span className="flex items-center justify-center gap-2">
-                    <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-                    </svg>
-                    Subscribing...
-                  </span>
-                ) : (
-                  'Subscribe'
-                )}
-              </button>
-            </div>
-
-            {/* Message */}
-            {message && (
-              <motion.div
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className={`mt-4 p-3 rounded-xl text-center text-sm ${
-                  message.type === 'success'
-                    ? 'bg-green-500/10 border border-green-500/30 text-green-300'
-                    : 'bg-red-500/10 border border-red-500/30 text-red-300'
-                }`}
-              >
-                {message.text}
-              </motion.div>
-            )}
-          </motion.form>
+            <SubscribeForm source="cta_section" />
+          </motion.div>
 
           {/* YouTube Icon */}
           <motion.div

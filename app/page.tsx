@@ -4,11 +4,10 @@ import { useEffect } from 'react';
 import { useGlobalStore } from '@/store/globalStore';
 import Header from '@/components/Header';
 import BannerSection from '@/components/BannerSection';
-import HeroSection from '@/components/HeroSection';
-import Legend from '@/components/Legend';
-import SubscribeSection from '@/components/SubscribeSection';
-import UnlockReveal from '@/components/UnlockReveal';
 import PremiumMembershipSection from '@/components/PremiumMembershipSection';
+import SubscribeSection from '@/components/SubscribeSection';
+import MapSection from '@/components/MapSection';
+import UnlockReveal from '@/components/UnlockReveal';
 import Footer from '@/components/Footer';
 
 export default function Home() {
@@ -34,23 +33,17 @@ export default function Home() {
       {/* Header */}
       <Header />
       
-      {/* 1. Banner Section with Video - 100vh */}
+      {/* 1. Banner Section with Video */}
       <BannerSection />
       
-      {/* 2. Map Section - 100vh */}
-      <section className="h-screen flex flex-col overflow-hidden">
-        {/* Hero Section with Map */}
-        <HeroSection />
-        
-        {/* Legend */}
-        <Legend />
-      </section>
+      {/* 2. Payment / Premium Membership Section */}
+      <PremiumMembershipSection />
       
-      {/* 3. Subscribe Section with Video - 100vh */}
+      {/* 3. CTA Subscribe Section with Video */}
       <SubscribeSection />
       
-      {/* 4. Premium Membership / Payment Section */}
-      <PremiumMembershipSection />
+      {/* 4. Map Section with Video Overlay + Subscribe Form */}
+      <MapSection />
       
       {/* Footer */}
       <Footer />

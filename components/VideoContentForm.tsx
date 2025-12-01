@@ -8,13 +8,13 @@ interface VideoContentFormProps {
   onSubmit: (update: VideoContentUpdate) => Promise<void>;
 }
 
-const PLACEMENT_OPTIONS: { value: VideoPlacement; label: string }[] = [
-  { value: 'banner_video', label: 'Homepage Banner Video' },
-  { value: 'homepage_video', label: 'Homepage Payment Section Video' },
-  { value: 'subscribe_video', label: 'Homepage Subscribe Section Video' },
-  { value: 'dashboard_video', label: 'User Dashboard Video' },
-  { value: 'watch_on_youtube', label: 'Watch on YouTube Button' },
-  { value: 'betting_essentials', label: 'Betting Essentials Button' },
+const PLACEMENT_OPTIONS: { value: VideoPlacement; label: string; description: string }[] = [
+  { value: 'banner_video', label: '1. Banner Video', description: 'Top of homepage' },
+  { value: 'homepage_video', label: '2. Payment Section Video', description: 'Map overlay + payment section' },
+  { value: 'subscribe_video', label: '3. CTA Subscribe Video', description: 'Subscribe section with email form' },
+  { value: 'dashboard_video', label: 'User Dashboard Video', description: 'Premium dashboard main video' },
+  { value: 'watch_on_youtube', label: 'Watch on YouTube Button', description: 'Dashboard link button' },
+  { value: 'betting_essentials', label: 'Betting Essentials Button', description: 'Dashboard link button' },
 ];
 
 export default function VideoContentForm({ onSubmit }: VideoContentFormProps) {
@@ -112,7 +112,7 @@ export default function VideoContentForm({ onSubmit }: VideoContentFormProps) {
         >
           {PLACEMENT_OPTIONS.map((option) => (
             <option key={option.value} value={option.value}>
-              {option.label}
+              {option.label} - {option.description}
             </option>
           ))}
         </select>
