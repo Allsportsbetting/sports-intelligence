@@ -3,7 +3,7 @@ import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
 import { VideoContentUpdate } from '@/types';
 
-const VALID_PLACEMENTS = ['homepage_video', 'dashboard_video', 'watch_on_youtube', 'betting_essentials'];
+const VALID_PLACEMENTS = ['homepage_video', 'dashboard_video', 'watch_on_youtube', 'betting_essentials', 'banner_video', 'subscribe_video'];
 
 export async function POST(request: NextRequest) {
   try {

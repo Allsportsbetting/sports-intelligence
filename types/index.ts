@@ -8,7 +8,7 @@ export type Payment = Database['public']['Tables']['payments']['Row'];
 export type VideoContent = Database['public']['Tables']['video_content']['Row'];
 
 // Video placement types
-export type VideoPlacement = 'homepage_video' | 'dashboard_video' | 'watch_on_youtube' | 'betting_essentials';
+export type VideoPlacement = 'homepage_video' | 'dashboard_video' | 'watch_on_youtube' | 'betting_essentials' | 'banner_video' | 'subscribe_video';
 
 // Request interfaces for admin operations
 export interface CountryUpdate {

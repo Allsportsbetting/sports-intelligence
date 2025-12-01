@@ -3,8 +3,10 @@
 import { useEffect } from 'react';
 import { useGlobalStore } from '@/store/globalStore';
 import Header from '@/components/Header';
+import BannerSection from '@/components/BannerSection';
 import HeroSection from '@/components/HeroSection';
 import Legend from '@/components/Legend';
+import SubscribeSection from '@/components/SubscribeSection';
 import UnlockReveal from '@/components/UnlockReveal';
 import PremiumMembershipSection from '@/components/PremiumMembershipSection';
 import Footer from '@/components/Footer';
@@ -32,7 +34,10 @@ export default function Home() {
       {/* Header */}
       <Header />
       
-      {/* Map Section - 100vh */}
+      {/* 1. Banner Section with Video - 100vh */}
+      <BannerSection />
+      
+      {/* 2. Map Section - 100vh */}
       <section className="h-screen flex flex-col overflow-hidden">
         {/* Hero Section with Map */}
         <HeroSection />
@@ -41,7 +46,10 @@ export default function Home() {
         <Legend />
       </section>
       
-      {/* Premium Membership Section */}
+      {/* 3. Subscribe Section with Video - 100vh */}
+      <SubscribeSection />
+      
+      {/* 4. Premium Membership / Payment Section */}
       <PremiumMembershipSection />
       
       {/* Footer */}

@@ -9,7 +9,9 @@ interface VideoContentFormProps {
 }
 
 const PLACEMENT_OPTIONS: { value: VideoPlacement; label: string }[] = [
-  { value: 'homepage_video', label: 'Homepage Video' },
+  { value: 'banner_video', label: 'Homepage Banner Video' },
+  { value: 'homepage_video', label: 'Homepage Payment Section Video' },
+  { value: 'subscribe_video', label: 'Homepage Subscribe Section Video' },
   { value: 'dashboard_video', label: 'User Dashboard Video' },
   { value: 'watch_on_youtube', label: 'Watch on YouTube Button' },
   { value: 'betting_essentials', label: 'Betting Essentials Button' },
