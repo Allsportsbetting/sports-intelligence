@@ -1,6 +1,6 @@
-# 🌍 Admin-Driven Global Unlock
+# 🌍 ALl Sports Intelligence
 
-A minimalist web application featuring an interactive world map that displays global progress toward an unlock goal. The experience centers around a luminous visual element that responds to real-time admin-controlled data.
+A minimalist web application featuring an interactive world map that displays global progress toward an unlock goal. The experience centers around a luminous visual element that responds to real-time admin-controlled data
 
 ## App UI
 
