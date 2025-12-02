@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useVideoContentStore } from '@/store/videoContentStore';
 import SubscribeForm from '@/components/SubscribeForm';
+import AutoPlayVideo from '@/components/AutoPlayVideo';
 
 export default function SubscribeSection() {
   const { videoContent, fetchVideoContent, subscribeToRealtime, unsubscribeFromRealtime } = useVideoContentStore();
@@ -61,14 +62,11 @@ export default function SubscribeSection() {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="relative aspect-video bg-black rounded-2xl overflow-hidden mb-8 shadow-lg shadow-cyan-500/20"
+              className="mb-8 shadow-lg shadow-cyan-500/20"
             >
-              <iframe
+              <AutoPlayVideo
                 src={subscribeVideo.video_url}
                 title={subscribeVideo.title || 'Subscribe Video'}
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                className="absolute inset-0 w-full h-full rounded-2xl"
               />
             </motion.div>
           )}

@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useVideoContentStore } from '@/store/videoContentStore';
+import AutoPlayVideo from '@/components/AutoPlayVideo';
 
 export default function PremiumMembershipSection() {
   const [email, setEmail] = useState('');
@@ -112,13 +113,11 @@ export default function PremiumMembershipSection() {
             
             {/* YouTube Video Embed */}
             {homepageVideo?.show_video && homepageVideo?.video_url && (
-              <div className="relative aspect-video bg-black rounded-xl mb-4 overflow-hidden">
-                <iframe
+              <div className="mb-4">
+                <AutoPlayVideo
                   src={homepageVideo.video_url}
                   title={homepageVideo.title || 'Video'}
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                  className="absolute inset-0 w-full h-full rounded-xl"
+                  className="rounded-xl"
                 />
               </div>
             )}

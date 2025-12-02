@@ -7,6 +7,7 @@ import { useVideoContentStore } from '@/store/videoContentStore';
 import WorldMapContainer from '@/components/WorldMapContainer';
 import Legend from '@/components/Legend';
 import SubscribeForm from '@/components/SubscribeForm';
+import AutoPlayVideo from '@/components/AutoPlayVideo';
 
 export default function MapSection() {
   const countryStates = useGlobalStore((state) => state.countryStates);
@@ -49,13 +50,10 @@ export default function MapSection() {
 
             {/* Video */}
             {mapVideo.video_url && (
-              <div className="relative aspect-video bg-black rounded-2xl overflow-hidden mb-6 shadow-lg shadow-purple-500/20">
-                <iframe
+              <div className="mb-6 shadow-lg shadow-purple-500/20">
+                <AutoPlayVideo
                   src={mapVideo.video_url}
                   title={mapVideo.title || 'Map Section Video'}
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                  className="absolute inset-0 w-full h-full rounded-2xl"
                 />
               </div>
             )}
