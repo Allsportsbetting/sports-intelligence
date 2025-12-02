@@ -12,7 +12,7 @@ export type SubscribedUser = Database['public']['Tables']['subscribed_users']['R
 export type SubscriptionSource = 'cta_section' | 'map_section';
 
 // Video placement types
-export type VideoPlacement = 'homepage_video' | 'dashboard_video' | 'watch_on_youtube' | 'betting_essentials' | 'banner_video' | 'subscribe_video';
+export type VideoPlacement = 'homepage_video' | 'dashboard_video' | 'watch_on_youtube' | 'betting_essentials' | 'banner_video' | 'subscribe_video' | 'map_video';
 
 // Request interfaces for admin operations
 export interface CountryUpdate {

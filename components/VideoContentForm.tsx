@@ -10,8 +10,9 @@ interface VideoContentFormProps {
 
 const PLACEMENT_OPTIONS: { value: VideoPlacement; label: string; description: string }[] = [
   { value: 'banner_video', label: '1. Banner Video', description: 'Top of homepage' },
-  { value: 'homepage_video', label: '2. Payment Section Video', description: 'Map overlay + payment section' },
+  { value: 'homepage_video', label: '2. Payment Section Video', description: 'Payment section video' },
   { value: 'subscribe_video', label: '3. CTA Subscribe Video', description: 'Subscribe section with email form' },
+  { value: 'map_video', label: '4. Map Section Video', description: 'Video card above the world map' },
   { value: 'dashboard_video', label: 'User Dashboard Video', description: 'Premium dashboard main video' },
   { value: 'watch_on_youtube', label: 'Watch on YouTube Button', description: 'Dashboard link button' },
   { value: 'betting_essentials', label: 'Betting Essentials Button', description: 'Dashboard link button' },

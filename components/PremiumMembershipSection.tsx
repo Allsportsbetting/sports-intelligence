@@ -94,9 +94,6 @@ export default function PremiumMembershipSection() {
             <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-cyan-300 via-purple-300 to-cyan-400 bg-clip-text text-transparent mb-3">
               All Sports Intelligence
             </h2>
-            <p className="text-slate-300 text-base md:text-lg">
-              who we're & what we offer
-            </p>
           </div>
 
           {/* Video Section */}

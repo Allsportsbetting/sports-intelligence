@@ -10,7 +10,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Admin-Driven Global Unlock",
+  title: "All Sports Intelligence",
   description: "A minimalist web experience centered around a luminous Locker and interactive world map",
 };
 
