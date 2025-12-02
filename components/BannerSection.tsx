@@ -1,11 +1,12 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useVideoContentStore } from '@/store/videoContentStore';
 import AutoPlayVideo from '@/components/AutoPlayVideo';
 
 export default function BannerSection() {
+  const [isLoading, setIsLoading] = useState(false);
   const { videoContent, fetchVideoContent, subscribeToRealtime, unsubscribeFromRealtime } = useVideoContentStore();
   const bannerVideo = videoContent.get('banner_video');
 
@@ -14,6 +15,33 @@ export default function BannerSection() {
     subscribeToRealtime();
     return () => unsubscribeFromRealtime();
   }, [fetchVideoContent, subscribeToRealtime, unsubscribeFromRealtime]);
+
+  const handleCreateAccount = async () => {
+    setIsLoading(true);
+    try {
+      const response = await fetch('/api/create-checkout-session-no-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to create checkout session');
+      }
+
+      // Redirect to Stripe Checkout
+      if (data.url) {
+        window.location.href = data.url;
+      }
+    } catch (error) {
+      console.error('Payment error:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   // Don't render if video is hidden
   if (!bannerVideo?.show_video) return null;
@@ -60,11 +88,37 @@ export default function BannerSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.3 }}
-              className="text-slate-300 text-center text-lg leading-relaxed"
+              className="text-slate-300 text-center text-lg leading-relaxed mb-8"
             >
               {bannerVideo.description}
             </motion.p>
           )}
+
+          {/* CTA Button */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            className="flex justify-center"
+          >
+            <button
+              onClick={handleCreateAccount}
+              disabled={isLoading}
+              className="px-10 py-4 bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600 text-white font-bold text-lg rounded-xl shadow-lg shadow-cyan-500/30 hover:shadow-cyan-500/50 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {isLoading ? (
+                <span className="flex items-center justify-center gap-2">
+                  <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                  </svg>
+                  Processing...
+                </span>
+              ) : (
+                'Create Your Account'
+              )}
+            </button>
+          </motion.div>
         </div>
       </motion.div>
     </section>
