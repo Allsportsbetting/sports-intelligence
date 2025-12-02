@@ -1,6 +1,6 @@
 # 🌍 ALl Sports Intelligence
 
-A full stack web application featuring an interactive world map that displays global progress toward an unlock goal. The experience centers around a luminous visual element that responds to real-time admin-controlled data.
+A full stack web application featuring an interactive world map that displays global progress toward an unlock goal. The experience centers around a luminous visual element that responds to real-time admin controlled data.
 
 ## App UI
 
