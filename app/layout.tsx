@@ -11,6 +11,7 @@ const inter = Inter({
 });
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://allsportsintelligence.com';
+const facebookAppId = process.env.NEXT_PUBLIC_FACEBOOK_APP_ID;
 
 export const metadata: Metadata = {
   title: {
@@ -55,6 +56,7 @@ export const metadata: Metadata = {
         alt: 'All Sports Intelligence - Interactive World Map',
       },
     ],
+    ...(facebookAppId && { appId: facebookAppId }),
   },
   twitter: {
     card: 'summary_large_image',
